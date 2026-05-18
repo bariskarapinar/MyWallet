@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.myapp.mywallet.data.local.entity.CardEntity
 import com.myapp.mywallet.data.local.entity.ExpenseEntity
 import com.myapp.mywallet.ui.components.CreditCard
+import com.myapp.mywallet.ui.components.SpendingChart
 import com.myapp.mywallet.viewmodel.WalletViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -117,6 +118,16 @@ fun WalletHomeScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
+                item {
+                    if (expenses.isNotEmpty()) {
+                        SpendingChart(
+                            expenses = expenses.takeLast(10).reversed(),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp)
+                        )
+                    }
+                }
                 items(expenses) { expense ->
                     ExpenseItem(expense)
                 }
