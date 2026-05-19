@@ -1,12 +1,12 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "2cd2c4b3809746b9d24249f6bc3b5f85",
+    "version": 4,
+    "identityHash": "e5ed111c6593226250769940bb4065b6",
     "entities": [
       {
         "tableName": "cards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cardHolderName` TEXT NOT NULL, `cardNumber` TEXT NOT NULL, `cardType` TEXT NOT NULL, `expiryDate` TEXT NOT NULL, `balance` REAL NOT NULL, `backgroundColor` TEXT NOT NULL, `gradientColors` TEXT NOT NULL, `currency` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cardHolderName` TEXT NOT NULL, `cardNumber` TEXT NOT NULL, `cardType` TEXT NOT NULL, `expiryDate` TEXT NOT NULL, `balance` REAL NOT NULL, `backgroundColor` TEXT NOT NULL, `gradientColors` TEXT NOT NULL, `currency` TEXT NOT NULL, `rewardPoints` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -60,6 +60,12 @@
             "fieldPath": "currency",
             "columnName": "currency",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rewardPoints",
+            "columnName": "rewardPoints",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -134,7 +140,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2cd2c4b3809746b9d24249f6bc3b5f85')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5ed111c6593226250769940bb4065b6')"
     ]
   }
 }
