@@ -117,7 +117,7 @@ fun CardFront(card: CardEntity) {
                 )
             }
             Text(
-                text = "$${String.format(java.util.Locale.US, "%.2f", card.balance)}",
+                text = "${getCurrencySymbol(card.currency)}${String.format(java.util.Locale.US, "%.2f", card.balance)}",
                 color = Color.White,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
@@ -163,6 +163,14 @@ fun CardFront(card: CardEntity) {
                 )
             }
         }
+    }
+}
+
+private fun getCurrencySymbol(currency: String): String {
+    return when (currency) {
+        "EUR" -> "€"
+        "GBP" -> "£"
+        else -> "$"
     }
 }
 
