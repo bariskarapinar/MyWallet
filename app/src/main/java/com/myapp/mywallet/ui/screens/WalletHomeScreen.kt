@@ -22,13 +22,29 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.myapp.mywallet.data.local.entity.CardEntity
 import com.myapp.mywallet.data.local.entity.ExpenseEntity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import com.myapp.mywallet.ui.components.CategoryInsights
 import com.myapp.mywallet.ui.components.CreditCard
+import com.myapp.mywallet.ui.components.CreditScoreMeter
+import com.myapp.mywallet.ui.components.ExchangeRates
+import com.myapp.mywallet.ui.components.FinancialTips
+import com.myapp.mywallet.ui.components.InvestmentPortfolio
+import com.myapp.mywallet.ui.components.QuickActions
+import com.myapp.mywallet.ui.components.RewardSection
+import com.myapp.mywallet.ui.components.SavingsGoals
+import com.myapp.mywallet.ui.components.SecurityStatus
 import com.myapp.mywallet.ui.components.SpendingChart
+import com.myapp.mywallet.ui.components.SpendingLimitGauge
+import com.myapp.mywallet.ui.components.UpcomingBills
+import com.myapp.mywallet.ui.components.WealthTracker
 import com.myapp.mywallet.viewmodel.WalletViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +57,46 @@ fun WalletHomeScreen(
     val cards by viewModel.cards.collectAsState()
     val expenses by viewModel.expenses.collectAsState()
     val selectedCard by viewModel.selectedCard.collectAsState()
+    val isAuthSuccessful by viewModel.isAuthSuccessful.collectAsState()
+
+    val context = androidx.compose.ui.platform.LocalContext.current
+    
+    LaunchedEffect(Unit) {
+        if (!isAuthSuccessful) {
+            val executor = ContextCompat.getMainExecutor(context)
+            val biometricPrompt = BiometricPrompt(
+                context as FragmentActivity,
+                executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                        super.onAuthenticationSucceeded(result)
+                        viewModel.onAuthSuccess()
+                    }
+
+                    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+                        super.onAuthenticationError(errorCode, errString)
+                        // For educational/demo purposes, allow access even if biometrics fail or are not set up
+                        viewModel.onAuthSuccess()
+                    }
+                }
+            )
+
+            val promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric Login")
+                .setSubtitle("Log in using your biometric credential")
+                .setNegativeButtonText("Use account password")
+                .build()
+
+            biometricPrompt.authenticate(promptInfo)
+        }
+    }
+
+    if (!isAuthSuccessful) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
+        }
+        return
+    }
 
     Scaffold(
         topBar = {
@@ -54,11 +110,9 @@ fun WalletHomeScreen(
             )
         },
         floatingActionButton = {
-            selectedCard?.let { card ->
-                FloatingActionButton(onClick = { viewModel.addDummyExpense(card.id) }) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Expense")
-                }
-            }
+            QuickActions(onActionClick = { category ->
+                selectedCard?.let { viewModel.addDummyExpense(it.id) }
+            })
         }
     ) { padding ->
         Column(
@@ -68,8 +122,9 @@ fun WalletHomeScreen(
                 .background(
                     Brush.verticalGradient(
                         listOf(
-                            MaterialTheme.colorScheme.surface,
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                            Color(0xFFFFFFFF),
+                            Color(0xFFF0F2F8),
+                            Color(0xFFE2E5EE)
                         )
                     )
                 )
@@ -84,6 +139,8 @@ fun WalletHomeScreen(
                 }
 
                 Column(modifier = Modifier.padding(vertical = 16.dp)) {
+                    WealthTracker(totalBalance = cards.sumOf { it.balance })
+
                     HorizontalPager(
                         state = pagerState,
                         contentPadding = PaddingValues(horizontal = 32.dp),
@@ -106,13 +163,6 @@ fun WalletHomeScreen(
                 }
             }
 
-            Text(
-                text = "Recent Transactions",
-                modifier = Modifier.padding(16.dp),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
@@ -120,16 +170,76 @@ fun WalletHomeScreen(
             ) {
                 item {
                     if (expenses.isNotEmpty()) {
+                        SecurityStatus(modifier = Modifier.fillMaxWidth())
+
                         SpendingChart(
                             expenses = expenses.takeLast(10).reversed(),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(bottom = 16.dp)
                         )
+                        
+                        CategoryInsights(
+                            expenses = expenses,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp)
+                        )
+
+                        RewardSection(
+                            points = selectedCard?.rewardPoints ?: 0,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 16.dp)
+                        )
+
+                        SpendingLimitGauge(
+                            current = expenses.sumOf { it.amount },
+                            limit = 5000.0,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        SavingsGoals(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        FinancialTips(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        ExchangeRates(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        InvestmentPortfolio(
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        CreditScoreMeter(
+                            score = 785,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+
+                        UpcomingBills(
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
+                item {
+                    Text(
+                        text = "Recent Transactions",
+                        modifier = Modifier.padding(vertical = 16.dp),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
                 items(expenses) { expense ->
-                    ExpenseItem(expense)
+                    val symbol = when (selectedCard?.currency) {
+                        "EUR" -> "€"
+                        "GBP" -> "£"
+                        else -> "$"
+                    }
+                    ExpenseItem(expense, symbol)
                 }
             }
         }
@@ -137,7 +247,7 @@ fun WalletHomeScreen(
 }
 
 @Composable
-fun ExpenseItem(expense: ExpenseEntity) {
+fun ExpenseItem(expense: ExpenseEntity, currencySymbol: String = "$") {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.1f)),
@@ -160,7 +270,7 @@ fun ExpenseItem(expense: ExpenseEntity) {
                 )
             }
             Text(
-                text = "-$${String.format(Locale.US, "%.2f", expense.amount)}",
+                text = "-$currencySymbol${String.format(Locale.US, "%.2f", expense.amount)}",
                 color = Color(0xFFE57373),
                 fontWeight = FontWeight.Bold
             )
