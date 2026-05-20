@@ -9,10 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -35,7 +32,7 @@ fun SpendingChart(
     }
 
     val maxAmount = expenses.maxOfOrNull { it.amount }?.coerceAtLeast(100.0) ?: 100.0
-    val chartColor = MaterialTheme.colorScheme.primary
+    val chartColor = Color(0xFF6C63FF) // Primary Colorful
 
     Column(modifier = modifier.padding(16.dp)) {
         Text(
@@ -49,6 +46,7 @@ fun SpendingChart(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(150.dp)
+                .padding(horizontal = 8.dp)
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val width = size.width
@@ -81,16 +79,14 @@ fun SpendingChart(
                     drawPath(
                         path = fillPath,
                         brush = Brush.verticalGradient(
-                            colors = listOf(chartColor.copy(alpha = 0.3f), Color.Transparent),
-                            startY = 0f,
-                            endY = height
+                            colors = listOf(chartColor.copy(alpha = 0.4f), Color.Transparent)
                         )
                     )
                     
                     drawPath(
                         path = path,
                         color = chartColor,
-                        style = Stroke(width = 3.dp.toPx())
+                        style = Stroke(width = 4.dp.toPx())
                     )
                 }
             }
