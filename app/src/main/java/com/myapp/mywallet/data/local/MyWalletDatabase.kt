@@ -7,7 +7,7 @@ import com.myapp.mywallet.data.local.dao.ExpenseDao
 import com.myapp.mywallet.data.local.entity.CardEntity
 import com.myapp.mywallet.data.local.entity.ExpenseEntity
 
-@Database(entities = [CardEntity::class, ExpenseEntity::class], version = 1, exportSchema = true)
+@Database(entities = [CardEntity::class, ExpenseEntity::class], version = 4, exportSchema = true)
 abstract class MyWalletDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
     abstract fun expenseDao(): ExpenseDao
