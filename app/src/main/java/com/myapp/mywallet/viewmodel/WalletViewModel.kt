@@ -31,6 +31,13 @@ class WalletViewModel @Inject constructor(
         loadCards()
     }
 
+    private val _isAuthSuccessful = MutableStateFlow(false)
+    val isAuthSuccessful: StateFlow<Boolean> = _isAuthSuccessful.asStateFlow()
+
+    fun onAuthSuccess() {
+        _isAuthSuccessful.value = true
+    }
+
     private fun loadCards() {
         viewModelScope.launch {
             repository.getAllCards().collect { cardList ->
@@ -55,7 +62,9 @@ class WalletViewModel @Inject constructor(
                 expiryDate = "12/28",
                 balance = 5420.50,
                 backgroundColor = "#1A237E",
-                gradientColors = "#1A237E,#536DFE"
+                gradientColors = "#1A237E,#536DFE",
+                currency = "USD",
+                rewardPoints = 1250
             ),
             CardEntity(
                 cardHolderName = "John Doe",
@@ -64,7 +73,9 @@ class WalletViewModel @Inject constructor(
                 expiryDate = "05/26",
                 balance = 2150.75,
                 backgroundColor = "#C62828",
-                gradientColors = "#C62828,#FF8F00"
+                gradientColors = "#C62828,#FF8F00",
+                currency = "EUR",
+                rewardPoints = 840
             ),
             CardEntity(
                 cardHolderName = "John Doe",
@@ -73,7 +84,31 @@ class WalletViewModel @Inject constructor(
                 expiryDate = "09/27",
                 balance = 8900.00,
                 backgroundColor = "#004D40",
-                gradientColors = "#004D40,#00BFA5"
+                gradientColors = "#004D40,#00BFA5",
+                currency = "GBP",
+                rewardPoints = 3200
+            ),
+            CardEntity(
+                cardHolderName = "John Doe",
+                cardNumber = "6212345678901234",
+                cardType = CardType.CHINAUNIONPAY,
+                expiryDate = "11/29",
+                balance = 15400.00,
+                backgroundColor = "#B71C1C",
+                gradientColors = "#B71C1C,#0D47A1",
+                currency = "USD",
+                rewardPoints = 540
+            ),
+            CardEntity(
+                cardHolderName = "John Doe",
+                cardNumber = "6011000011112222",
+                cardType = CardType.DISCOVER,
+                expiryDate = "03/27",
+                balance = 3200.00,
+                backgroundColor = "#E65100",
+                gradientColors = "#E65100,#F9A825",
+                currency = "USD",
+                rewardPoints = 120
             )
         )
 
@@ -87,7 +122,19 @@ class WalletViewModel @Inject constructor(
         val expenses = listOf(
             ExpenseEntity(cardId = cardId, title = "Apple Store", amount = 129.0, date = System.currentTimeMillis() - 86400000, category = "Tech"),
             ExpenseEntity(cardId = cardId, title = "Starbucks", amount = 15.50, date = System.currentTimeMillis() - 172800000, category = "Food"),
-            ExpenseEntity(cardId = cardId, title = "Uber", amount = 24.0, date = System.currentTimeMillis() - 259200000, category = "Transport")
+            ExpenseEntity(cardId = cardId, title = "Uber", amount = 24.0, date = System.currentTimeMillis() - 259200000, category = "Transport"),
+            ExpenseEntity(cardId = cardId, title = "Netflix", amount = 15.99, date = System.currentTimeMillis() - 345600000, category = "Entertainment"),
+            ExpenseEntity(cardId = cardId, title = "Amazon", amount = 85.00, date = System.currentTimeMillis() - 432000000, category = "Shopping"),
+            ExpenseEntity(cardId = cardId, title = "Gym Membership", amount = 50.00, date = System.currentTimeMillis() - 518400000, category = "Health"),
+            ExpenseEntity(cardId = cardId, title = "Gas Station", amount = 45.20, date = System.currentTimeMillis() - 604800000, category = "Transport"),
+            ExpenseEntity(cardId = cardId, title = "Grocery Mart", amount = 120.45, date = System.currentTimeMillis() - 691200000, category = "Food"),
+            ExpenseEntity(cardId = cardId, title = "Pharmacy", amount = 12.30, date = System.currentTimeMillis() - 777600000, category = "Health"),
+            ExpenseEntity(cardId = cardId, title = "Local Cafe", amount = 8.50, date = System.currentTimeMillis() - 864000000, category = "Food"),
+            ExpenseEntity(cardId = cardId, title = "Zara", amount = 150.00, date = System.currentTimeMillis() - 950400000, category = "Shopping"),
+            ExpenseEntity(cardId = cardId, title = "Delta Airlines", amount = 450.00, date = System.currentTimeMillis() - 1036800000, category = "Travel"),
+            ExpenseEntity(cardId = cardId, title = "Hilton Hotels", amount = 230.00, date = System.currentTimeMillis() - 1123200000, category = "Travel"),
+            ExpenseEntity(cardId = cardId, title = "Steam Games", amount = 59.99, date = System.currentTimeMillis() - 1209600000, category = "Entertainment"),
+            ExpenseEntity(cardId = cardId, title = "Adobe CC", amount = 52.99, date = System.currentTimeMillis() - 1296000000, category = "Tech")
         )
         expenses.forEach { repository.insertExpense(it) }
     }
