@@ -13,5 +13,7 @@ data class CardEntity(
     val expiryDate: String,
     val balance: Double,
     val backgroundColor: String, // Hex color
-    val gradientColors: String // Comma separated hex colors
+    val gradientColors: String, // Comma separated hex colors
+    val currency: String = "USD",
+    val rewardPoints: Int = 0
 )
