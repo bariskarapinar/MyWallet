@@ -31,12 +31,14 @@ import com.myapp.mywallet.data.local.entity.ExpenseEntity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
+import com.myapp.mywallet.ui.components.CardPerks
 import com.myapp.mywallet.ui.components.CategoryInsights
 import com.myapp.mywallet.ui.components.CreditCard
 import com.myapp.mywallet.ui.components.CreditScoreMeter
 import com.myapp.mywallet.ui.components.ExchangeRates
 import com.myapp.mywallet.ui.components.FinancialTips
 import com.myapp.mywallet.ui.components.InvestmentPortfolio
+import com.myapp.mywallet.ui.components.LoyaltyCards
 import com.myapp.mywallet.ui.components.QuickActions
 import com.myapp.mywallet.ui.components.RewardSection
 import com.myapp.mywallet.ui.components.SavingsGoals
@@ -156,6 +158,8 @@ fun WalletHomeScreen(
                         currentPage = pagerState.currentPage,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
+
+                    LoyaltyCards(modifier = Modifier.fillMaxWidth())
                 }
             } else {
                 Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
@@ -223,6 +227,10 @@ fun WalletHomeScreen(
                         UpcomingBills(
                             modifier = Modifier.fillMaxWidth()
                         )
+
+                        selectedCard?.let { card ->
+                            CardPerks(cardType = card.cardType, modifier = Modifier.fillMaxWidth())
+                        }
                     }
                 }
                 item {
