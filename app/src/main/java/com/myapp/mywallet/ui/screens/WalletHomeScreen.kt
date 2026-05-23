@@ -117,7 +117,7 @@ fun WalletHomeScreen(
             })
         }
     ) { padding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
@@ -129,126 +129,129 @@ fun WalletHomeScreen(
                             Color(0xFFE2E5EE)
                         )
                     )
-                )
+                ),
+            contentPadding = PaddingValues(bottom = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-            if (cards.isNotEmpty()) {
-                val pagerState = rememberPagerState { cards.size }
+            item {
+                if (cards.isNotEmpty()) {
+                    val pagerState = rememberPagerState { cards.size }
 
-                LaunchedEffect(pagerState) {
-                    snapshotFlow { pagerState.currentPage }.collect { page ->
-                        viewModel.selectCard(cards[page])
+                    LaunchedEffect(pagerState) {
+                        snapshotFlow { pagerState.currentPage }.collect { page ->
+                            viewModel.selectCard(cards[page])
+                        }
                     }
-                }
 
-                Column(modifier = Modifier.padding(vertical = 16.dp)) {
-                    WealthTracker(totalBalance = cards.sumOf { it.balance })
+                    Column(modifier = Modifier.padding(vertical = 16.dp)) {
+                        WealthTracker(totalBalance = cards.sumOf { it.balance })
 
-                    HorizontalPager(
-                        state = pagerState,
-                        contentPadding = PaddingValues(horizontal = 32.dp),
-                        pageSpacing = 16.dp
-                    ) { page ->
-                        CreditCard(card = cards[page])
+                        HorizontalPager(
+                            state = pagerState,
+                            contentPadding = PaddingValues(horizontal = 32.dp),
+                            pageSpacing = 16.dp
+                        ) { page ->
+                            CreditCard(card = cards[page])
+                        }
+                        
+                        Spacer(modifier = Modifier.height(16.dp))
+                        
+                        PageIndicator(
+                            count = cards.size,
+                            currentPage = pagerState.currentPage,
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        )
+
+                        LoyaltyCards(modifier = Modifier.fillMaxWidth())
                     }
-                    
-                    Spacer(modifier = Modifier.height(16.dp))
-                    
-                    PageIndicator(
-                        count = cards.size,
-                        currentPage = pagerState.currentPage,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-
-                    LoyaltyCards(modifier = Modifier.fillMaxWidth())
-                }
-            } else {
-                Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
-                    Text("No cards available. Add one!")
+                } else {
+                    Box(modifier = Modifier.fillMaxWidth().height(200.dp), contentAlignment = Alignment.Center) {
+                        Text("No cards available. Add one!")
+                    }
                 }
             }
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                item {
-                    if (expenses.isNotEmpty()) {
-                        SecurityStatus(modifier = Modifier.fillMaxWidth())
+            item {
+                if (expenses.isNotEmpty()) {
+                    SecurityStatus(modifier = Modifier.fillMaxWidth())
 
-                        SpendingChart(
-                            expenses = expenses.takeLast(10).reversed(),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 16.dp)
-                        )
-                        
-                        CategoryInsights(
-                            expenses = expenses,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 16.dp)
-                        )
-
-                        RewardSection(
-                            points = selectedCard?.rewardPoints ?: 0,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 16.dp)
-                        )
-
-                        SpendingLimitGauge(
-                            current = expenses.sumOf { it.amount },
-                            limit = 5000.0,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        SavingsGoals(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        FinancialTips(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        ExchangeRates(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        InvestmentPortfolio(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        CreditScoreMeter(
-                            score = 785,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        UpcomingBills(
-                            modifier = Modifier.fillMaxWidth()
-                        )
-
-                        selectedCard?.let { card ->
-                            CardPerks(cardType = card.cardType, modifier = Modifier.fillMaxWidth())
-                        }
-                    }
-                }
-                item {
-                    Text(
-                        text = "Recent Transactions",
-                        modifier = Modifier.padding(vertical = 16.dp),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
+                    SpendingChart(
+                        expenses = expenses.takeLast(10).reversed(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp)
                     )
-                }
-                items(expenses) { expense ->
-                    val symbol = when (selectedCard?.currency) {
-                        "EUR" -> "€"
-                        "GBP" -> "£"
-                        else -> "$"
+                    
+                    CategoryInsights(
+                        expenses = expenses,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp)
+                    )
+
+                    RewardSection(
+                        points = selectedCard?.rewardPoints ?: 0,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 16.dp)
+                    )
+
+                    SpendingLimitGauge(
+                        current = expenses.sumOf { it.amount },
+                        limit = 5000.0,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    SavingsGoals(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    FinancialTips(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    ExchangeRates(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    InvestmentPortfolio(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    CreditScoreMeter(
+                        score = 785,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    UpcomingBills(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    selectedCard?.let { card ->
+                        CardPerks(cardType = card.cardType, modifier = Modifier.fillMaxWidth())
                     }
+                }
+            }
+
+            item {
+                Text(
+                    text = "Recent Transactions",
+                    modifier = Modifier.padding(16.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            items(expenses) { expense ->
+                val symbol = when (selectedCard?.currency) {
+                    "EUR" -> "€"
+                    "GBP" -> "£"
+                    else -> "$"
+                }
+                Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                     ExpenseItem(expense, symbol)
                 }
+                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }
