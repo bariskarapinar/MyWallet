@@ -3,12 +3,12 @@ package com.myapp.mywallet.ui.components
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -27,6 +29,7 @@ fun CreditScoreMeter(
     score: Int = 750,
     modifier: Modifier = Modifier
 ) {
+    var showDetails by remember { mutableStateOf(false) }
     val animationProgress = remember { Animatable(0f) }
     
     LaunchedEffect(score) {
@@ -34,7 +37,10 @@ fun CreditScoreMeter(
     }
 
     Card(
-        modifier = modifier.fillMaxWidth().padding(16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable { showDetails = true },
         shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f))
     ) {
@@ -85,7 +91,7 @@ fun CreditScoreMeter(
                         center.y + needleLength * sin(angleInRadians)
                     )
                     
-                    val pointerColor = Color.White // Fix for color scheme error in draw scope
+                    val pointerColor = Color.White
 
                     drawLine(
                         color = pointerColor,
@@ -122,9 +128,110 @@ fun CreditScoreMeter(
             }
             
             Text(
-                text = "Last updated 2 days ago",
+                text = "Tap for more details",
                 fontSize = 10.sp,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+            )
+        }
+    }
+
+    if (showDetails) {
+        CreditScoreDetail(score = score, onDismiss = { showDetails = false })
+    }
+}
+
+@Composable
+fun CreditScoreDetail(score: Int, onDismiss: () -> Unit) {
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .clickable { onDismiss() },
+            contentAlignment = Alignment.Center
+        ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .padding(16.dp)
+                    .clickable(enabled = false) {},
+                shape = RoundedCornerShape(24.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                Column(modifier = Modifier.padding(24.dp)) {
+                    Text(
+                        text = "Credit Analysis",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF2D3436)
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    // Static version of the meter for the detail view
+                    Box(modifier = Modifier.fillMaxWidth().height(150.dp), contentAlignment = Alignment.Center) {
+                         Text("Detailed Chart Coming Soon", color = Color.Gray, fontSize = 12.sp)
+                    }
+
+                    Text(
+                        text = "Your score of $score is in the top tier. Keep maintaining your timely payments!",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    Text(
+                        text = "Impact Factors",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF2D3436)
+                    )
+                    
+                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    FactorItem("Payment History", "Excellent", Color(0xFF81C784))
+                    FactorItem("Credit Utilization", "3% - Ideal", Color(0xFF81C784))
+                    FactorItem("Hard Inquiries", "None", Color(0xFF81C784))
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = onDismiss,
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C63FF))
+                    ) {
+                        Text("Close Analysis", fontWeight = FontWeight.Bold, color = Color.White)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FactorItem(label: String, status: String, color: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 6.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = label, fontSize = 14.sp, color = Color.DarkGray)
+        Surface(
+            shape = RoundedCornerShape(8.dp),
+            color = color.copy(alpha = 0.1f)
+        ) {
+            Text(
+                text = status,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Bold,
+                color = color
             )
         }
     }
