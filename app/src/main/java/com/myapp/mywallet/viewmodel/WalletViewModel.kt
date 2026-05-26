@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WalletViewModel @Inject constructor(
-    private val repository: WalletRepository
+    private val repository: WalletRepository,
 ) : ViewModel() {
 
     private val _cards = MutableStateFlow<List<CardEntity>>(emptyList())
@@ -27,12 +27,12 @@ class WalletViewModel @Inject constructor(
     private val _expenses = MutableStateFlow<List<ExpenseEntity>>(emptyList())
     val expenses: StateFlow<List<ExpenseEntity>> = _expenses.asStateFlow()
 
+    private val _isAuthSuccessful = MutableStateFlow(value = false)
+    val isAuthSuccessful: StateFlow<Boolean> = _isAuthSuccessful.asStateFlow()
+
     init {
         loadCards()
     }
-
-    private val _isAuthSuccessful = MutableStateFlow(false)
-    val isAuthSuccessful: StateFlow<Boolean> = _isAuthSuccessful.asStateFlow()
 
     fun onAuthSuccess() {
         _isAuthSuccessful.value = true
@@ -157,7 +157,9 @@ class WalletViewModel @Inject constructor(
                 expiryDate = "12/28",
                 balance = 5000.0,
                 backgroundColor = "#000000",
-                gradientColors = "#000000,#FFFFFF"
+                gradientColors = "#000000,#FFFFFF",
+                currency = "USD",
+                rewardPoints = 0
             )
             repository.insertCard(dummyCard)
         }
