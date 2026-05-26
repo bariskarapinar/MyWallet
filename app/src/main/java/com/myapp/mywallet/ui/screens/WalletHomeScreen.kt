@@ -22,7 +22,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +31,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.myapp.mywallet.ui.components.CardPerks
+import com.myapp.mywallet.ui.components.CarbonFootprint
 import com.myapp.mywallet.ui.components.CategoryInsights
 import com.myapp.mywallet.ui.components.CreditCard
 import com.myapp.mywallet.ui.components.CreditScoreMeter
@@ -40,12 +40,14 @@ import com.myapp.mywallet.ui.components.FinancialTips
 import com.myapp.mywallet.ui.components.InvestmentPortfolio
 import com.myapp.mywallet.ui.components.LoyaltyCards
 import com.myapp.mywallet.ui.components.QuickActions
+import com.myapp.mywallet.ui.components.ReferralSection
 import com.myapp.mywallet.ui.components.RewardSection
 import com.myapp.mywallet.ui.components.SavingsGoals
 import com.myapp.mywallet.ui.components.SecurityStatus
 import com.myapp.mywallet.ui.components.SpendingChart
 import com.myapp.mywallet.ui.components.SpendingLimitGauge
 import com.myapp.mywallet.ui.components.UpcomingBills
+import com.myapp.mywallet.ui.components.WealthDistribution
 import com.myapp.mywallet.ui.components.WealthTracker
 import com.myapp.mywallet.viewmodel.WalletViewModel
 import java.text.SimpleDateFormat
@@ -112,7 +114,7 @@ fun WalletHomeScreen(
             )
         },
         floatingActionButton = {
-            QuickActions(onActionClick = { category ->
+            QuickActions(onActionClick = { _ ->
                 selectedCard?.let { viewModel.addDummyExpense(it.id) }
             })
         }
@@ -189,6 +191,10 @@ fun WalletHomeScreen(
                             .padding(bottom = 16.dp)
                     )
 
+                    WealthDistribution(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
                     RewardSection(
                         points = selectedCard?.rewardPoints ?: 0,
                         modifier = Modifier
@@ -210,6 +216,10 @@ fun WalletHomeScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
 
+                    CarbonFootprint(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
                     ExchangeRates(
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -224,6 +234,10 @@ fun WalletHomeScreen(
                     )
 
                     UpcomingBills(
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    ReferralSection(
                         modifier = Modifier.fillMaxWidth()
                     )
 
