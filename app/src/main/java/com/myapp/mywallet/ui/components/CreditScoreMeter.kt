@@ -26,14 +26,14 @@ import kotlin.math.sin
 
 @Composable
 fun CreditScoreMeter(
+    modifier: Modifier = Modifier,
     score: Int = 750,
-    modifier: Modifier = Modifier
 ) {
-    var showDetails by remember { mutableStateOf(false) }
-    val animationProgress = remember { Animatable(0f) }
+    var showDetails by remember { mutableStateOf(value = false) }
+    val animationProgress = remember { Animatable(initialValue = 0f) }
     
-    LaunchedEffect(score) {
-        animationProgress.animateTo(score / 850f, tween(1500))
+    LaunchedEffect(key1 = score) {
+        animationProgress.animateTo(targetValue = score / 850f, animationSpec = tween(durationMillis = 1500))
     }
 
     Card(
@@ -41,11 +41,11 @@ fun CreditScoreMeter(
             .fillMaxWidth()
             .padding(16.dp)
             .clickable { showDetails = true },
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(size = 24.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f))
     ) {
         Column(
-            modifier = Modifier.padding(24.dp),
+            modifier = Modifier.padding(all = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -55,12 +55,12 @@ fun CreditScoreMeter(
                 color = MaterialTheme.colorScheme.onSurface
             )
             
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(height = 16.dp))
 
-            Box(modifier = Modifier.size(200.dp), contentAlignment = Alignment.Center) {
+            Box(modifier = Modifier.size(size = 200.dp), contentAlignment = Alignment.Center) {
                 Canvas(modifier = Modifier.fillMaxSize()) {
                     val strokeWidth = 12.dp.toPx()
-                    val center = Offset(size.width / 2, size.height / 2)
+                    val centerOffset = Offset(x = size.width / 2, y = size.height / 2)
                     val radius = (size.minDimension / 2) - strokeWidth
                     
                     // Background Arc
@@ -87,15 +87,15 @@ fun CreditScoreMeter(
                     val angleInRadians = (180f + (180f * animationProgress.value)) * (Math.PI / 180f).toFloat()
                     val needleLength = radius - 10.dp.toPx()
                     val needleEnd = Offset(
-                        center.x + needleLength * cos(angleInRadians),
-                        center.y + needleLength * sin(angleInRadians)
+                        x = centerOffset.x + (needleLength * cos(angleInRadians)),
+                        y = centerOffset.y + (needleLength * sin(angleInRadians))
                     )
                     
                     val pointerColor = Color.White
 
                     drawLine(
                         color = pointerColor,
-                        start = center,
+                        start = centerOffset,
                         end = needleEnd,
                         strokeWidth = 4.dp.toPx(),
                         cap = StrokeCap.Round
@@ -104,7 +104,7 @@ fun CreditScoreMeter(
                     drawCircle(
                         color = pointerColor,
                         radius = 8.dp.toPx(),
-                        center = center
+                        center = centerOffset
                     )
                 }
                 
@@ -136,7 +136,10 @@ fun CreditScoreMeter(
     }
 
     if (showDetails) {
-        CreditScoreDetail(score = score, onDismiss = { showDetails = false })
+        CreditScoreDetail(
+            score = score,
+            onDismiss = { showDetails = false }
+        )
     }
 }
 
@@ -149,30 +152,31 @@ fun CreditScoreDetail(score: Int, onDismiss: () -> Unit) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f))
+                .background(color = Color.Black.copy(alpha = 0.5f))
                 .clickable { onDismiss() },
             contentAlignment = Alignment.Center
         ) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(16.dp)
+                    .fillMaxWidth(fraction = 0.9f)
+                    .padding(all = 16.dp)
                     .clickable(enabled = false) {},
-                shape = RoundedCornerShape(24.dp),
+                shape = RoundedCornerShape(size = 24.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
-                Column(modifier = Modifier.padding(24.dp)) {
+                Column(modifier = Modifier.padding(all = 24.dp)) {
                     Text(
                         text = "Credit Analysis",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF2D3436)
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(height = 16.dp))
                     
-                    // Static version of the meter for the detail view
-                    Box(modifier = Modifier.fillMaxWidth().height(150.dp), contentAlignment = Alignment.Center) {
-                         Text("Detailed Chart Coming Soon", color = Color.Gray, fontSize = 12.sp)
+                    // Using a static version for the detail view to avoid recursive call loops if needed, 
+                    // though here it's fine as it's a dialog. Let's keep it clean.
+                    Box(modifier = Modifier.fillMaxWidth().height(height = 150.dp), contentAlignment = Alignment.Center) {
+                         Text(text = "Detailed Chart Analysis", color = Color.Gray, fontSize = 14.sp)
                     }
 
                     Text(
@@ -181,7 +185,7 @@ fun CreditScoreDetail(score: Int, onDismiss: () -> Unit) {
                         color = Color.Gray
                     )
                     
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(height = 24.dp))
                     
                     Text(
                         text = "Impact Factors",
@@ -190,21 +194,21 @@ fun CreditScoreDetail(score: Int, onDismiss: () -> Unit) {
                         color = Color(0xFF2D3436)
                     )
                     
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(height = 12.dp))
                     
-                    FactorItem("Payment History", "Excellent", Color(0xFF81C784))
-                    FactorItem("Credit Utilization", "3% - Ideal", Color(0xFF81C784))
-                    FactorItem("Hard Inquiries", "None", Color(0xFF81C784))
+                    FactorItem(label = "Payment History", status = "Excellent", color = Color(0xFF81C784))
+                    FactorItem(label = "Credit Utilization", status = "3% - Ideal", color = Color(0xFF81C784))
+                    FactorItem(label = "Hard Inquiries", status = "None", color = Color(0xFF81C784))
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(height = 24.dp))
 
                     Button(
                         onClick = onDismiss,
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(16.dp),
+                        shape = RoundedCornerShape(size = 16.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C63FF))
                     ) {
-                        Text("Close Analysis", fontWeight = FontWeight.Bold, color = Color.White)
+                        Text(text = "Close Analysis", fontWeight = FontWeight.Bold, color = Color.White)
                     }
                 }
             }
