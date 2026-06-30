@@ -57,6 +57,13 @@ fun WealthTracker(
                     }
                 }
             }
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = "You've saved 12% more than last month. Keep it up!",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+            )
         }
     }
 }
