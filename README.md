@@ -124,7 +124,7 @@ erDiagram
 
 ## 🔄 User Flow Logic
 
-How the user interacts with the "Super Extreme" MyWallet ecosystem:
+How the user interacts with the MyWallet ecosystem:
 
 ```mermaid
 sequenceDiagram
@@ -198,8 +198,3 @@ While this is an educational demo, it is built to scale:
 4. Run on a physical device or emulator with Biometric support.
 
 ---
-
-<div align="center">
-    <p><b>Developed with ❤️ for the Android Community</b></p>
-    <p><i>"The most powerful wallet you'll ever build."</i></p>
-</div>
