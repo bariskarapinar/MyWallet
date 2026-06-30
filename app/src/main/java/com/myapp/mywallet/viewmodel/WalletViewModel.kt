@@ -120,21 +120,21 @@ class WalletViewModel @Inject constructor(
 
     private suspend fun addInitialExpenses(cardId: Long) {
         val expenses = listOf(
-            ExpenseEntity(cardId = cardId, title = "Apple Store", amount = 129.0, date = System.currentTimeMillis() - 86400000, category = "Tech"),
-            ExpenseEntity(cardId = cardId, title = "Starbucks", amount = 15.50, date = System.currentTimeMillis() - 172800000, category = "Food"),
-            ExpenseEntity(cardId = cardId, title = "Uber", amount = 24.0, date = System.currentTimeMillis() - 259200000, category = "Transport"),
-            ExpenseEntity(cardId = cardId, title = "Netflix", amount = 15.99, date = System.currentTimeMillis() - 345600000, category = "Entertainment"),
-            ExpenseEntity(cardId = cardId, title = "Amazon", amount = 85.00, date = System.currentTimeMillis() - 432000000, category = "Shopping"),
-            ExpenseEntity(cardId = cardId, title = "Gym Membership", amount = 50.00, date = System.currentTimeMillis() - 518400000, category = "Health"),
-            ExpenseEntity(cardId = cardId, title = "Gas Station", amount = 45.20, date = System.currentTimeMillis() - 604800000, category = "Transport"),
-            ExpenseEntity(cardId = cardId, title = "Grocery Mart", amount = 120.45, date = System.currentTimeMillis() - 691200000, category = "Food"),
-            ExpenseEntity(cardId = cardId, title = "Pharmacy", amount = 12.30, date = System.currentTimeMillis() - 777600000, category = "Health"),
-            ExpenseEntity(cardId = cardId, title = "Local Cafe", amount = 8.50, date = System.currentTimeMillis() - 864000000, category = "Food"),
-            ExpenseEntity(cardId = cardId, title = "Zara", amount = 150.00, date = System.currentTimeMillis() - 950400000, category = "Shopping"),
-            ExpenseEntity(cardId = cardId, title = "Delta Airlines", amount = 450.00, date = System.currentTimeMillis() - 1036800000, category = "Travel"),
-            ExpenseEntity(cardId = cardId, title = "Hilton Hotels", amount = 230.00, date = System.currentTimeMillis() - 1123200000, category = "Travel"),
-            ExpenseEntity(cardId = cardId, title = "Steam Games", amount = 59.99, date = System.currentTimeMillis() - 1209600000, category = "Entertainment"),
-            ExpenseEntity(cardId = cardId, title = "Adobe CC", amount = 52.99, date = System.currentTimeMillis() - 1296000000, category = "Tech")
+            ExpenseEntity(cardId = cardId, title = "Apple Store", amount = 129.0, date = System.currentTimeMillis() - 3600000, category = "Tech"),
+            ExpenseEntity(cardId = cardId, title = "Whole Foods", amount = 85.20, date = System.currentTimeMillis() - 86400000, category = "Food"),
+            ExpenseEntity(cardId = cardId, title = "Shell Gas Station", amount = 45.0, date = System.currentTimeMillis() - 172800000, category = "Transport"),
+            ExpenseEntity(cardId = cardId, title = "Netflix", amount = 15.99, date = System.currentTimeMillis() - 259200000, category = "Entertainment"),
+            ExpenseEntity(cardId = cardId, title = "Amazon.com", amount = 112.50, date = System.currentTimeMillis() - 345600000, category = "Shopping"),
+            ExpenseEntity(cardId = cardId, title = "Equinox Gym", amount = 150.00, date = System.currentTimeMillis() - 432000000, category = "Health"),
+            ExpenseEntity(cardId = cardId, title = "Starbucks", amount = 5.45, date = System.currentTimeMillis() - 518400000, category = "Food"),
+            ExpenseEntity(cardId = cardId, title = "Uber Ride", amount = 22.30, date = System.currentTimeMillis() - 604800000, category = "Transport"),
+            ExpenseEntity(cardId = cardId, title = "Local Farmers Market", amount = 34.00, date = System.currentTimeMillis() - 691200000, category = "Food"),
+            ExpenseEntity(cardId = cardId, title = "Nike Store", amount = 89.99, date = System.currentTimeMillis() - 777600000, category = "Shopping"),
+            ExpenseEntity(cardId = cardId, title = "Delta Airlines", amount = 450.00, date = System.currentTimeMillis() - 864000000, category = "Travel"),
+            ExpenseEntity(cardId = cardId, title = "Marriott Bonvoy", amount = 210.00, date = System.currentTimeMillis() - 950400000, category = "Travel"),
+            ExpenseEntity(cardId = cardId, title = "Steam Store", amount = 59.99, date = System.currentTimeMillis() - 1036800000, category = "Entertainment"),
+            ExpenseEntity(cardId = cardId, title = "Adobe Creative Cloud", amount = 52.99, date = System.currentTimeMillis() - 1123200000, category = "Tech"),
+            ExpenseEntity(cardId = cardId, title = "Blue Bottle Coffee", amount = 7.25, date = System.currentTimeMillis() - 1209600000, category = "Food")
         )
         expenses.forEach { repository.insertExpense(it) }
     }
