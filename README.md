@@ -21,8 +21,6 @@ As a developer gaining experience in the Android ecosystem, I wanted to build mo
 ---
 
 ## 🎨 Visual Gallery (Manual Entry)
-> [!TIP]
-> **Developer Note:** Use this section to showcase your stunning UI. Replace the placeholders below with your high-resolution screenshots.
 
 | Home Dashboard | 3D Card Flip | Financial Insights |
 | :---: | :---: | :---: |
