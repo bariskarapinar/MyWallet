@@ -178,7 +178,6 @@ private fun getCardLogo(cardType: CardType): Int? {
     return when (cardType) {
         CardType.VISA -> R.drawable.ic_visa
         CardType.MASTERCARD -> R.drawable.ic_mastercard
-        CardType.AMEX -> R.drawable.ic_amex
         else -> null
     }
 }
