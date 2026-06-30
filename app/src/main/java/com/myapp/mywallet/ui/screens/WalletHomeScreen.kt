@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -65,6 +66,15 @@ fun WalletHomeScreen(
 
     val context = androidx.compose.ui.platform.LocalContext.current
     
+    val greeting = remember {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        when (hour) {
+            in 0..11 -> "Good morning"
+            in 12..16 -> "Good afternoon"
+            else -> "Good evening"
+        }
+    }
+
     LaunchedEffect(Unit) {
         if (!isAuthSuccessful) {
             val executor = ContextCompat.getMainExecutor(context)
@@ -105,7 +115,12 @@ fun WalletHomeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("My Wallet", fontWeight = FontWeight.Bold) },
+                title = { 
+                    Column {
+                        Text("$greeting, John", fontSize = 14.sp, color = Color.Gray, fontWeight = FontWeight.Normal)
+                        Text("My Wallet", fontWeight = FontWeight.Bold)
+                    }
+                },
                 actions = {
                     IconButton(onClick = { viewModel.addDummyCard() }) {
                         Icon(Icons.Default.Add, contentDescription = "Add Card")
