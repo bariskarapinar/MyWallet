@@ -20,15 +20,61 @@ As a developer gaining experience in the Android ecosystem, I wanted to build mo
 
 ---
 
-## 🎨 Visual Gallery (Manual Entry)
+## 🎨 Visual Gallery
 
-| Home Dashboard | 3D Card Flip | Financial Insights |
-| :---: | :---: | :---: |
-| ![SS Placeholder](https://via.placeholder.com/300x600?text=Home+Dashboard) | ![SS Placeholder](https://via.placeholder.com/300x600?text=Card+Flip+Detail) | ![SS Placeholder](https://via.placeholder.com/300x600?text=Spending+Analytics) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1495a034-f886-441d-b87d-3164daa3f705" width="24%">
+  <img src="https://github.com/user-attachments/assets/5bc72887-cfdb-45db-9c09-4d15a515146f" width="24%">
+  <img src="https://github.com/user-attachments/assets/fc155693-ba3c-498e-afb4-63ef1afbf7e0" width="24%">
+</p>
 
-| Biometric Login | Loyalty Cards | Savings Goals |
-| :---: | :---: | :---: |
-| ![SS Placeholder](https://via.placeholder.com/300x600?text=Secure+Auth) | ![SS Placeholder](https://via.placeholder.com/300x600?text=Store+Loyalty) | ![SS Placeholder](https://via.placeholder.com/300x600?text=Goal+Tracking) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/5cd408e3-1cd2-451c-9db8-d0089a9f253b" width="24%">
+  <img src="https://github.com/user-attachments/assets/d2f9735a-81a2-455f-8be4-3c835a28c613" width="24%">
+  <img src="https://github.com/user-attachments/assets/29a23b79-de9c-4dd5-a6ab-4c005b1f6a68" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/132681fc-2d89-4580-8ba9-2f68bc47f40c" width="24%">
+  <img src="https://github.com/user-attachments/assets/cd3cb874-dea0-4b47-91a5-8f6bbed9541c" width="24%">
+  <img src="https://github.com/user-attachments/assets/4ffb2300-9252-4899-b02c-14bb33a72181" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/eddead27-0b4a-4390-b29b-08549930a13d" width="24%">
+  <img src="https://github.com/user-attachments/assets/0f5692f0-55cb-4012-a6e3-cdcec2f41a09" width="24%">
+  <img src="https://github.com/user-attachments/assets/2abd9e0f-fd83-47c4-a761-278c936ac98f" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/f29ced29-0f08-4525-8d0d-79d1de5c50eb" width="24%">
+  <img src="https://github.com/user-attachments/assets/a9c0fdaf-d2d3-4bad-93cd-e4b1bc979e7b" width="24%">
+  <img src="https://github.com/user-attachments/assets/91d3cb38-890f-492c-9f55-81e765445120" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/86bbb886-82b4-437c-bdf1-5ffac8abb89f" width="24%">
+  <img src="https://github.com/user-attachments/assets/578e1a9d-fe26-43d9-8d98-0cd75533a171" width="24%">
+  <img src="https://github.com/user-attachments/assets/d10d5ea4-7bdd-460e-b7c9-75655de5a611" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cc546cea-2e73-4d14-befd-55fe0be5bda1" width="24%">
+  <img src="https://github.com/user-attachments/assets/4ad95789-01c7-4024-9efd-4326911dd0c1" width="24%">
+  <img src="https://github.com/user-attachments/assets/ae939f2c-df1a-4b62-98eb-7574fd8ae7f3" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e1252378-bc92-4710-9254-ef2f79e99a0c" width="24%">
+  <img src="https://github.com/user-attachments/assets/0b0feb58-b467-47f7-b2f0-4750150eeb2d" width="24%">
+  <img src="https://github.com/user-attachments/assets/71361fc4-3540-4fac-9bfc-d4cfdac8135e" width="24%">
+</p>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/4772d7da-366a-4424-9a20-1a5335a9ac1d" width="24%">
+  <img src="https://github.com/user-attachments/assets/ca0635ca-3c3a-4cf8-961b-8cd7ead5002d" width="24%">
+  <img src="https://github.com/user-attachments/assets/b75ec0c1-3321-46ab-8417-1834a1822f49" width="24%">
+</p>
 
 ---
 
